@@ -9,30 +9,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CassandraManager = void 0;
+exports.DatabaseManager = void 0;
 const Color = require("chalk");
 const index_1 = require("../index");
-class CassandraManager {
+class DatabaseManager {
     constructor(Client) {
-        this.CassandraClient = Client;
+        this.DatabaseClient = Client;
     }
     initializeDatabase() {
         return __awaiter(this, void 0, void 0, function* () {
-            if ((yield (yield this.CassandraClient.execute("SELECT table_name FROM system_schema.tables WHERE keyspace_name='frproject' AND table_name = 'models'")).rowLength) === 0) {
-                try {
-                    yield this.CassandraClient.execute("CREATE TABLE Models (persona_id bigint PRIMARY KEY, model_data text)");
-                }
-                catch (ex) {
-                    return index_1.LoggingManager.error(`Failed to create table "${Color.magenta("Models")}"`, ex);
-                }
+            try {
+                yield this.DatabaseClient.query("CREATE TABLE IF NOT EXISTS personas (persona_id bigint PRIMARY KEY, persona_data text);");
+                index_1.LoggingManager.info(`Table "${Color.magenta("personas")}" has been created!`);
             }
-            index_1.LoggingManager.info("Test");
+            catch (ex) {
+                return index_1.LoggingManager.error(`Failed to create table "${Color.magenta("personas")}"`, ex);
+            }
         });
     }
     exit() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.CassandraClient.shutdown();
+            yield this.DatabaseClient.end();
         });
     }
 }
-exports.CassandraManager = CassandraManager;
+exports.DatabaseManager = DatabaseManager;

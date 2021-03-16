@@ -6,6 +6,8 @@ import * as fs from 'fs';
 
 export class OpenCVManager {
 
+    public static DataDir: fs.PathLike = process.env.FR_DATA_DIR || __dirname + '/../../data/';
+
     public static async getFace(grayImg: Mat): Promise<Mat> {
         let classifier = new CascadeClassifier(HAAR_FRONTALFACE_ALT2);
         let faceRects = classifier.detectMultiScale(grayImg).objects;
@@ -26,20 +28,20 @@ export class OpenCVManager {
     }
 
 
-    public static async loadModel(Recognizer: FaceRecognizer, PersonaID: String | Long | Number): Promise<FaceRecognizer> {
+    public static async loadModel(Recognizer: FaceRecognizer, PersonaID: String | Number): Promise<FaceRecognizer> {
 
         LoggingManager.info("Loading model for persona", PersonaID);
 
-        if (fs.existsSync(__dirname + "/../../data/models/" + PersonaID + ".frpmdl")) {
+        if (fs.existsSync(OpenCVManager.DataDir + "/models/" + PersonaID + ".frpmdl")) {
             LoggingManager.info("Found model for persona", PersonaID);
-            await Recognizer.load(__dirname + "/../../data/models/" + PersonaID + ".frpmdl");
+            await Recognizer.load(OpenCVManager.DataDir + "/models/" + PersonaID + ".frpmdl");
             LoggingManager.info("Loaded model for persona", PersonaID);
         }
 
         return Recognizer;
     }
 
-    public static async trainModel(Recognizer: FaceRecognizer, images: Mat[], PersonaID: String | Long | Number): Promise<FaceRecognizer> {
+    public static async trainModel(Recognizer: FaceRecognizer, images: Mat[], PersonaID: String | Number): Promise<FaceRecognizer> {
 
         let labels: any[] = [];
 
@@ -52,8 +54,8 @@ export class OpenCVManager {
         await Recognizer.trainAsync(images, labels);
 
         LoggingManager.info("Saving model for persona", PersonaID);
-        LoggingManager.debug(__dirname + "/../../data/models/" + PersonaID + ".frpmdl");
-        await Recognizer.save(__dirname + "/../../data/models/" + PersonaID + ".frpmdl");
+        LoggingManager.debug(OpenCVManager.DataDir + "/models/" + PersonaID + ".frpmdl");
+        await Recognizer.save(OpenCVManager.DataDir + "/models/" + PersonaID + ".frpmdl");
 
         return Recognizer;
     }

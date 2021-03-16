@@ -6,7 +6,13 @@ const util_1 = require("util");
 class LoggingManager {
     static extractClassFromStack(stacktrace) {
         let regex = new RegExp(/(?<=at )(.*)(?=.\<anonymous\>)/);
-        return regex.exec(stacktrace)[0] || "UnknownModule";
+        if (!regex.exec(stacktrace)[0]) {
+            return "UnknownModule";
+        }
+        if (regex.exec(stacktrace)[0] === "Object") {
+            return "Entrypoint";
+        }
+        return regex.exec(stacktrace)[0];
     }
     static info(...args) {
         let objs = [];
@@ -42,7 +48,7 @@ class LoggingManager {
         console.warn(Color.yellow("WARN:"), Color.blue(`[${LoggingManager.extractClassFromStack(new Error().stack)}]`), objs.join(" "));
     }
     static debug(...args) {
-        if (!process.env.FS_ENV && process.env.FS_ENV == "production")
+        if (process.env.FR_ENV == "production")
             return;
         let objs = [];
         for (var i = 0; i < arguments.length; i++) {

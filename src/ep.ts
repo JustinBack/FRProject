@@ -69,10 +69,10 @@ async function init() {
             for (var image of images) {
                 faces.push(await FRProject.OpenCVManager.getFace(image));
             }
-            Recognizer = await FRProject.OpenCVManager.loadModel(Recognizer, argv.personaid.toString(), DatabaseHelper);
+            Recognizer = await FRProject.OpenCVManager.loadModel(Recognizer, argv.personaid.toString());
 
 
-            await FRProject.OpenCVManager.trainModel(Recognizer, faces, argv.personaid.toString(), DatabaseHelper);
+            await FRProject.OpenCVManager.trainModel(Recognizer, faces, argv.personaid.toString());
         }
 
     } else if (argv._.includes('extract')) {
@@ -100,7 +100,7 @@ async function init() {
 
         let prepared = await FRProject.OpenCVManager.prepareImage(face);
 
-        Recognizer = await FRProject.OpenCVManager.loadModel(Recognizer, argv.personaid.toString(), DatabaseHelper);
+        Recognizer = await FRProject.OpenCVManager.loadModel(Recognizer, argv.personaid.toString());
 
         let result = await FRProject.OpenCVManager.execPrediction(Recognizer, prepared);
 
