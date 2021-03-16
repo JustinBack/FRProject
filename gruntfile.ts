@@ -12,35 +12,6 @@ module.exports = function (grunt: any) {
                 tsconfig: true
             },
         },
-        copy: {
-            default: {
-                files: [
-                    {
-                        nonull: true,
-                        src: 'src/.env.example',
-                        dest: 'production/.env.example',
-                    }, {
-                        nonull: true,
-                        src: 'package.json',
-                        dest: 'production/package.json',
-                    }, {
-                        nonull: true,
-                        src: 'package-lock.json',
-                        dest: 'production/package-lock.json',
-                    }
-                ]
-            },
-            envToProd: {
-                files: [
-                    {
-                        nonull: true,
-                        src: 'src/.env',
-                        force: true,
-                        dest: 'production/.env',
-                    }
-                ]
-            },
-        },
         compress: {
             default: {
                 options: {
@@ -67,5 +38,5 @@ module.exports = function (grunt: any) {
         console.log("Compilation time is at " + timestamp);
         grunt.file.write(__dirname + '/production/.compile_time', timestamp);
     });
-    grunt.registerTask('default', ['clean', 'ts', 'copy:default', 'compile_time', 'compress', 'copy:envToProd']);
+    grunt.registerTask('default', ['clean', 'ts', 'compile_time', 'compress']);
 };
