@@ -22,6 +22,11 @@ You can use it as a library, as well as a standalone (see ep.ts).
 FRProject provides wrappers for ffmpeg, opencv and its database component postgres, which is not required in the library **but** in the standalone version.
 
 
+#### Requirements
+
+To make the functionality of FRProject work, make sure `ffmpeg`, `node-gyp`, `python`, `make` and on windows `windows-build-tools` is installed.
+
+
 #### How to use FRProject?
 
 ##### Standalone
