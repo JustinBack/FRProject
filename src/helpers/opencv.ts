@@ -26,7 +26,7 @@ export class OpenCVManager {
     }
 
 
-    public static async loadModel(Recognizer: FaceRecognizer, PersonaID: String | Long | Number, CDatabaseManager: DatabaseManager): Promise<FaceRecognizer> {
+    public static async loadModel(Recognizer: FaceRecognizer, PersonaID: String | Long | Number): Promise<FaceRecognizer> {
 
         LoggingManager.info("Loading model for persona", PersonaID);
 
@@ -39,7 +39,7 @@ export class OpenCVManager {
         return Recognizer;
     }
 
-    public static async trainModel(Recognizer: FaceRecognizer, images: Mat[], PersonaID: String | Long | Number, CDatabaseManager: DatabaseManager): Promise<FaceRecognizer> {
+    public static async trainModel(Recognizer: FaceRecognizer, images: Mat[], PersonaID: String | Long | Number): Promise<FaceRecognizer> {
 
         let labels: any[] = [];
 
