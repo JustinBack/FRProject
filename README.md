@@ -51,3 +51,8 @@ Use the persona in your own storage functions to identify the model.
 #### Are there examples?
 
 Not yet, make sure to look in the ep.ts though, as its really simple made.
+
+
+#### Do I need the .env file?
+
+Only if you intend to use the standalone version.
