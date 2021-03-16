@@ -48,6 +48,8 @@ const argv = yargs
 
 FRProject.EnvironmentManager.init();
 
+fs.mkdirSync("../data/");
+
 const pool = new Pool();
 
 
